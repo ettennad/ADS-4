@@ -44,7 +44,7 @@ int countPairs3(int *arr, int len, int value) {
     for (int i = 0; i < len - 1; ++i) {
         if (i > 0 && arr[i] == arr[i - 1]) continue;
         int target = value - arr[i];
-        auto it = std::lower_bound(arr + i + 1, arr + len, target);
+        int* it = std::lower_bound(arr + i + 1, arr + len, target);
         if (it != arr + len && *it == target) {
             count++;
         }
