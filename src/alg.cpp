@@ -43,16 +43,15 @@ int countPairs2(int* arr, int len, int value) {
     return count;
 }
 
+#include <algorithm> // Для equal_range
+
 int countPairs3(int* arr, int len, int value) {
     int count = 0;
     for (int i = 0; i < len - 1; ++i) {
         int complement = value - arr[i];
-        if (complement < arr[i]) {
-            continue;
-        }
-        auto low = std::lower_bound(arr + i + 1, arr + len, complement);
-        auto high = std::upper_bound(arr + i + 1, arr + len, complement);
-        count += (high - low);
+        if (complement < arr[i]) continue;
+        auto range = std::equal_range(arr + i + 1, arr + len, complement);
+        count += range.second - range.first;
     }
     return count;
 }
