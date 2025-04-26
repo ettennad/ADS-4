@@ -1,4 +1,5 @@
 // Copyright 2021 NNTU-CS
+#include <unordered_set>
 #include <algorithm>
 
 int countPairs1(int* arr, int len, int value) {
