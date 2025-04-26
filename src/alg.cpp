@@ -27,22 +27,17 @@ int countPairs2(int* arr, int len, int value) {
                 count += n * (n - 1) / 2;
                 break;
             } else {
-                int lval = arr[left], rval = arr[right];
-                int lcnt = 0, rcnt = 0;
-                while (left <= right && arr[left] == lval) {
-                    lcnt++;
-                    left++;
-                }
-                while (right >= left && arr[right] == rval) {
-                    rcnt++;
-                    right--;
-                }
-                count += lcnt * rcnt;
+                int l = 1, r = 1;
+                while (left + l < right && arr[left + l] == arr[left]) ++l;
+                while (right - r > left && arr[right - r] == arr[right]) ++r;
+                count += l * r;
+                left += l;
+                right -= r;
             }
         } else if (sum < value) {
-            left++;
+            ++left;
         } else {
-            right--;
+            --right;
         }
     }
     return count;
