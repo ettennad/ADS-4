@@ -1,7 +1,4 @@
 // Copyright 2021 NNTU-CS
-#include <unordered_set>
-#include <algorithm>
-
 int countPairs1(int* arr, int len, int value) {
     int count = 0;
     for (int i = 0; i < len; ++i) {
@@ -20,18 +17,10 @@ int countPairs2(int* arr, int len, int value) {
     while (left < right) {
         int sum = arr[left] + arr[right];
         if (sum == value) {
-            if (arr[left] == arr[right]) {
-                int n = right - left + 1;
-                count += n * (n - 1) / 2;
-                break;
-            } else {
-                int l = 1, r = 1;
-                while (left + l < right && arr[left + l] == arr[left]) ++l;
-                while (right - r > left && arr[right - r] == arr[right]) ++r;
-                count += l * r;
-                left += l;
-                right -= r;
-            }
+            ++count;
+            int lval = arr[left], rval = arr[right];
+            while (left < right && arr[left] == lval) ++left;
+            while (left < right && arr[right] == rval) --right;
         } else if (sum < value) {
             ++left;
         } else {
@@ -41,13 +30,16 @@ int countPairs2(int* arr, int len, int value) {
     return count;
 }
 
+#include <algorithm>
+
 int countPairs3(int* arr, int len, int value) {
     int count = 0;
     for (int i = 0; i < len - 1; ++i) {
-        int complement = value - arr[i];
-        if (complement < arr[i]) continue;
-        auto range = std::equal_range(arr + i + 1, arr + len, complement);
-        count += range.second - range.first;
+        int target = value - arr[i];
+        const int* pos = std::lower_bound(arr + i + 1, arr + len, target);
+        if (pos != arr + len && *pos == target) {
+            ++count;
+        }
     }
     return count;
 }
