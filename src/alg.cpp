@@ -1,74 +1,60 @@
 // Copyright 2021 NNTU-CS
 #include <iostream>
 
-int countPairs1(int *arr, int len, int value)
-{
+int countPairs1(int *arr, int len, int value) {
     int count = 0;
-    for (int i = 0; i < len; ++i)
-    {
-        for (int j = i + 1; j < len; ++j)
-        {
-            if (arr[i] + arr[j] == value)
+    for (int i = 0; i < len; ++i) {
+        for (int j = i + 1; j < len; ++j) {
+            if (arr[i] + arr[j] == value) {
                 count++;
-            if (arr[i] + arr[j] > value)
+            } else if (arr[i] + arr[j] > value) {
                 break;
+            }
         }
     }
     return count;
 }
 
-int countPairs2(int *arr, int len, int value)
-{
+int countPairs2(int *arr, int len, int value) {
     int count = 0;
-    int left = 0;
-    int right = len - 1;
-
-    while (left < right)
-    {
+    int left = 0, right = len - 1;
+    while (left < right) {
         int sum = arr[left] + arr[right];
-        if (sum == value)
-        {
+        if (sum == value) {
             count++;
             left++;
             right--;
-        }
-        else if (sum < value)
-        {
+        } else if (sum < value) {
             left++;
-        }
-        else // sum > value
-        {
+        } else {
             right--;
         }
     }
-
     return count;
 }
 
-int binarySearch(int *arr, int left, int right, int target)
-{
-    while (left <= right)
-    {
+int binarySearch(int *arr, int left, int right, int target) {
+    while (left <= right) {
         int mid = left + (right - left) / 2;
-        if (arr[mid] == target)
+        if (arr[mid] == target) {
             return mid;
-        else if (arr[mid] < target)
+        } else if (arr[mid] < target) {
             left = mid + 1;
-        else
+        } else {
             right = mid - 1;
+        }
     }
     return -1;
 }
 
-int countPairs3(int *arr, int len, int value)
-{
+int countPairs3(int *arr, int len, int value) {
     int count = 0;
-    for (int i = 0; i < len; ++i)
-    {
+    for (int i = 0; i < len; ++i) {
         int complement = value - arr[i];
         int idx = binarySearch(arr, i + 1, len - 1, complement);
-        if (idx != -1)
+        if (idx != -1) {
             count++;
+        }
     }
     return count;
 }
