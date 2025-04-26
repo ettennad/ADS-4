@@ -43,8 +43,6 @@ int countPairs2(int* arr, int len, int value) {
     return count;
 }
 
-#include <algorithm> // Для equal_range
-
 int countPairs3(int* arr, int len, int value) {
     int count = 0;
     for (int i = 0; i < len - 1; ++i) {
