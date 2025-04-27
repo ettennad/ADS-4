@@ -1,88 +1,72 @@
 // Copyright 2021 NNTU-CS
-#include <algorithm>
+int countPairs1(int *arr, int size, int targetSum) {
+    int count = 0;
+    for (int i = 0; i < size - 1; i++) {
+        for (int j = i + 1; j < size; j++) {
+            if (arr[i] + arr[j] == targetSum) {
+                count++;
+            }
+        }
+    }
+    return count;
+}
 
-int countPairs1(int* arr, int len, int value) {
-        int pairCount = 0;
+int countPairs2(int* arr, int len, int value) {
+    int count = 0;
     int left = 0;
     int right = len - 1;
+    
     while (left < right) {
         int sum = arr[left] + arr[right];
         if (sum == value) {
-            int l_val = arr[left];
-            int r_val = arr[right];
-            if (l_val == r_val) {
-                int count = right - left + 1;
-                pairCount += (count * (count - 1)) / 2;
-                break;
-            } else {
-                int countLeft = 1;
-                int countRight = 1;
-                while (left + 1 < right && arr[left + 1] == l_val) {
-                    countLeft++;
-                    left++;
-                }
-                while (right - 1 > left && arr[right - 1] == r_val) {
-                    countRight++;
-                    right--;
-                }
-                pairCount += countLeft * countRight;
-                left++;
-                right--;
-            }
+            count++;
+            left++;
+            right--;
         } else if (sum < value) {
             left++;
         } else {
             right--;
         }
     }
-    return pairCount;
+    
+    return count;
 }
 
-int countPairs2(int* arr, int len, int value) {
-        int pairCount = 0;
-    for (int i = 0; i < len - 1; i++) {
-        for (int j = i + 1; j < len; j++) {
-            if (arr[i] + arr[j] == value) {
-                pairCount++;
-            }
-        }
-    }
-    return pairCount;
-}
-
-int findMatches(int* arr, int start, int end, int target) {
-    int first = -1, last = -1;
-    int left = start, right = end;
+int findMatches(int *arr, int start, int end, int target) {
+    int firstOccurrence = -1;
+    int left = start;
+    int right = end;
     while (left <= right) {
         int mid = left + (right - left) / 2;
         if (arr[mid] >= target) {
-            if (arr[mid] == target) first = mid;
+            if (arr[mid] == target) firstOccurrence = mid;
             right = mid - 1;
         } else {
             left = mid + 1;
         }
     }
-    if (first == -1) return 0;
-    left = first;
+    if (firstOccurrence == -1) return 0;
+    int lastOccurrence = firstOccurrence;
+    left = firstOccurrence;
     right = end;
     while (left <= right) {
         int mid = left + (right - left) / 2;
         if (arr[mid] <= target) {
-            if (arr[mid] == target) last = mid;
+            if (arr[mid] == target) lastOccurrence = mid;
             left = mid + 1;
         } else {
             right = mid - 1;
         }
     }
-    return last - first + 1;
+    return lastOccurrence - firstOccurrence + 1;
 }
 
-int countPairs3(int* arr, int len, int value) {
+int countPairs3(int *arr, int size, int targetSum) {
     int pairCount = 0;
-    for (int i = 0; i < len - 1; ++i) {
-        int complement = value - arr[i];
+    for (int i = 0; i < size; i++) {
+        int complement = targetSum - arr[i];
         if (complement < 0) continue;
-        pairCount += findMatches(arr, i + 1, len - 1, complement);
+        pairCount += findMatches(arr, i + 1, size - 1, complement);
     }
     return pairCount;
 }
