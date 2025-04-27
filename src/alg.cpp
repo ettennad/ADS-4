@@ -2,19 +2,7 @@
 #include <algorithm>
 
 int countPairs1(int* arr, int len, int value) {
-    int pairCount = 0;
-    for (int i = 0; i < len - 1; i++) {
-        for (int j = i + 1; j < len; j++) {
-            if (arr[i] + arr[j] == value) {
-                pairCount++;
-            }
-        }
-    }
-    return pairCount;
-}
-
-int countPairs2(int* arr, int len, int value) {
-    int pairCount = 0;
+        int pairCount = 0;
     int left = 0;
     int right = len - 1;
     while (left < right) {
@@ -45,6 +33,18 @@ int countPairs2(int* arr, int len, int value) {
             left++;
         } else {
             right--;
+        }
+    }
+    return pairCount;
+}
+
+int countPairs2(int* arr, int len, int value) {
+        int pairCount = 0;
+    for (int i = 0; i < len - 1; i++) {
+        for (int j = i + 1; j < len; j++) {
+            if (arr[i] + arr[j] == value) {
+                pairCount++;
+            }
         }
     }
     return pairCount;
